@@ -18,10 +18,15 @@ class ImportForm(forms.Form):
         super().__init__(*args, **kwargs)
         choices = []
         for i, f in enumerate(import_formats):
-            choices.append((str(i), f().get_title(),))
-        if len(import_formats) > 1:
-            choices.insert(0, ('', '---'))
+            choices.append(
+                (str(i), f().get_title())
+            )
 
+        if len(import_formats) == 1:
+            self.fields['input_format'].widget = forms.HiddenInput()
+            self.initial['input_format'] = '0'
+        elif len(import_formats) > 1:
+            choices.insert(0, ('', '---'))
         self.fields['input_format'].choices = choices
 
 
@@ -46,10 +51,15 @@ class ExportForm(forms.Form):
         super().__init__(*args, **kwargs)
         choices = []
         for i, f in enumerate(formats):
-            choices.append((str(i), f().get_title(),))
-        if len(formats) > 1:
-            choices.insert(0, ('', '---'))
+            choices.append(
+                (str(i), f().get_title())
+            )
 
+        if len(formats) == 1:
+            self.fields['file_format'].widget = forms.HiddenInput()
+            self.initial['file_format'] = '0'
+        elif len(formats) > 1:
+            choices.insert(0, ('', '---'))
         self.fields['file_format'].choices = choices
 
 
